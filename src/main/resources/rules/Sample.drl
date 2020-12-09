@@ -24,7 +24,6 @@ function void askForBottle(JFrame frame, KieRuntime krt) {
 }
 
 function boolean isForYourself(JFrame frame, KieRuntime krt, Prompt prompt, Question question) {
-	BottleOfWineApp a = new BottleOfWineApp();
 	Object[] options = question.getAnswers();
 	
 
