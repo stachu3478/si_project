@@ -49,15 +49,35 @@ public class BottleOfWineApp {
 
     public static class Prompt {
         private String result;
-        private List<Info> infos;
+        public List<Info> infos;
         public boolean isNew = true;
         
         public Prompt() {
         	infos = new ArrayList<Info>();
         }
+        
+        public void addInfo(Info info) {
+        	infos.add(info);
+        }
+        
+        public boolean hasInfo(String str) {
+        	for (Info info : infos) {
+        		if (info.getQuestion() == str)
+        			return true;
+        	}
+        	return false;
+        }
+        
+        public boolean hasAnswer(String str) {
+        	for (Info info : infos) {
+        		if (info.toString() == str)
+        			return true;
+        	}
+        	return false;
+        }
     }
     
-    public class Info {
+    public static class Info {
     	private Question question;
     	private Answer answer;
     	

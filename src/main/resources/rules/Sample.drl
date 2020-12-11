@@ -14,47 +14,28 @@ import com.sample.BottleOfWineApp;
 global JFrame frame;
 global JTextArea textarea;
 
-function void askForBottle(JFrame frame, KieRuntime krt) {
-	Object[] options = {"Yes", "No"};
-	
-	int n = JOptionPane.showOptionDialog(frame, "Would you like to choose a bottle of wine now?", "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-	if (n == 0) {
-		krt.getAgenda().getAgendaGroup("choice").setFocus();
-	}
-}
-
-function boolean isForYourself(JFrame frame, KieRuntime krt, Prompt prompt, Question question) {
-	Object[] options = question.getAnswers();
-	
-
-	int n = JOptionPane.showOptionDialog(frame, question.toString(), "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-	
-	// FIXME No enclosing instance of type BottleOfWineApp is accessible. Must qualify the allocation with an enclosing instance of type BottleOfWineApp (e.g. x.new A() where x is an instance of BottleOfWineApp).	
-	// tried removing casting still not work
-	// krt.insert(new Info(question, options[n]));
-	return true;
-}
-
 rule "Is working"
 	when
 	then
 		System.out.println("Is working");
 end
- 
-rule "Welcome"
-    when
-        $prompt : Prompt(isNew == true)
-    then
-        askForBottle(frame, kcontext.getKieRuntime());
-end
 
 rule "Ask who drinks"
-
     when
-        $prompt : Prompt(isNew == true)
+    	// TODO: Move to condition
+        $prompt : Prompt(hasInfo("whoDrinks") == false)
         // FIXME mismatched input $prompt, missmatched input collect
-        forall($i : Info(getQuestion() != "whoDrinks")) // from collect($prompt.getInfos()) FIXME not exists - exists cannot be resolved to an object
+        // forall($i : Info(getQuestion() != "whoDrinks"))
+        // from collect($prompt.getInfos()) FIXME: not exists - exists cannot be resolved to an object
         $question : Question(keyword == "whoDrinks")
     then
-        isForYourself(frame, kcontext.getKieRuntime(), $prompt, $question);
+        // TODO: Move to other function
+        // FIXME: insert is undefined in function scope
+        // FIXME: No enclosing instance of type BottleOfWineApp is accessible. Must qualify the allocation with an enclosing instance of type BottleOfWineApp (e.g. x.new A() where x is an instance of BottleOfWineApp).	
+		// tried removing casting still not work
+        Object[] options = $question.getAnswers();
+		int n = JOptionPane.showOptionDialog(frame, $question.toString(), "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		Info info = new Info($question, (Answer)options[n]);
+		$prompt.addInfo(info);
+        update($prompt);
 end
