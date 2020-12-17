@@ -5,6 +5,8 @@ import javax.swing.JTextArea;
 
 import java.util.List;
 
+import org.kie.api.KieServices;
+import org.kie.api.logger.KieRuntimeLogger;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 
@@ -22,6 +24,8 @@ public class PromptCallback {
 		Prompt prompt = new Prompt();
 		
 		KieSession kSession = kContainer.newKieSession("ksession-rules");
+		KieServices ks = KieServices.Factory.get();
+		KieRuntimeLogger kLogger = ks.getLoggers().newFileLogger(kSession, "wine");
 		
 		for (Question q : knowledge) {
 			kSession.insert(q);
@@ -29,6 +33,7 @@ public class PromptCallback {
 		
 		kSession.insert(prompt);
 		kSession.fireAllRules();
+		kLogger.close();
 	}
 	
 	public void setOutput(JTextArea o) {

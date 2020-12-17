@@ -2,14 +2,9 @@ package com.sample;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
-
-import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.KieSession;
 
 /**
  * This is a sample class to launch a rule.
@@ -41,7 +36,7 @@ public class BottleOfWineApp {
     }
     
     public static class Prompt {
-        private String result;
+        // private String result;
         public List<Info> infos;
         public boolean isNew = true;
         

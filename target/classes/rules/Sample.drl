@@ -125,10 +125,10 @@ end
 
 rule "Ask feeling fancy"
     when
-        $prompt : Prompt((hasInfo("alone", "yes") == true,
-       					 hasInfo("atHome", "yes") == true,
-       					 hasInfo("dailyDrinking", "no") == false,
-        				 hasInfo("feelingFancy") == false) ||
+        $prompt : Prompt((hasInfo("alone", "yes") == true && // FIXME: missmatched input ","
+       					  hasInfo("atHome", "yes") == true &&
+       					  hasInfo("dailyDrinking", "no") == false &&
+        				  hasInfo("feelingFancy") == false) ||
         				 hasInfo("where", "restaurant") == true)
         $question : Question(keyword == "feelingFancy")
     then
@@ -223,16 +223,6 @@ rule "Ask from microwave"
         $prompt : Prompt(hasInfo("wineIsMainCourse", "no") == true,
         				 hasInfo("fromMicrowave") == false)
         $question : Question(keyword == "fromMicrowave")
-    then
-        $prompt.addInfo($question.ask());
-        update($prompt);
-end
-
-rule "Ask cook with wine"
-    when
-        $prompt : Prompt(hasInfo("fromMicrowave", "no") == true,
-        				 hasInfo("cookWithWine") == false)
-        $question : Question(keyword == "cookWithWine")
     then
         $prompt.addInfo($question.ask());
         update($prompt);

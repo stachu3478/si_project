@@ -10,9 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
-import com.sample.BottleOfWineApp.Info;
-import com.sample.BottleOfWineApp.Question;
-
 import javax.swing.JScrollPane;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
