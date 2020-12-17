@@ -53,6 +53,14 @@ public class BottleOfWineApp {
         	infos.add(info);
         }
         
+        public boolean hasInfo(String str, String ans) {
+        	for (Info info : infos) {
+        		if (info.getQuestion() == str)
+        			return ans == null || ans == info.toString();
+        	}
+        	return false;
+        }
+        
         public boolean hasInfo(String str) {
         	for (Info info : infos) {
         		if (info.getQuestion() == str)

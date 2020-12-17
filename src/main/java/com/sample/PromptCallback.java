@@ -9,7 +9,6 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 
 import com.sample.BottleOfWineApp.Prompt;
-import com.sample.BottleOfWineApp.Question;
 
 public class PromptCallback {
 	KieContainer kContainer;

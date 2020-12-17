@@ -93,6 +93,8 @@ public class Knowledge {
     	addAnswer("newYear", "New Year");
     	createQuestion("old", "Do you feel old?");
     	addYesNo();
+    	createQuestion("firstAnniversary", "Is it the first anniversary?");
+    	addYesNo();
 	}
 	
 	private void createQuestion(String key, String content) {

@@ -8,16 +8,281 @@ import org.kie.api.runtime.KieRuntime;
 import com.sample.BottleOfWineApp.Prompt;
 import com.sample.Question;
 
-rule "Is working"
-	when
-	then
-		System.out.println("Is working");
-end
-
 rule "Ask who drinks"
     when
         $prompt : Prompt(hasInfo("whoDrinks") == false)
         $question : Question(keyword == "whoDrinks")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask social gathering"
+    when
+        $prompt : Prompt(hasInfo("whoDrinks", "someoneElse") == true &&
+        				 hasInfo("socialGathering") == false)
+        $question : Question(keyword == "socialGathering")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask which social gathering"
+    when
+        $prompt : Prompt(hasInfo("socialGathering", "yes") == true,
+        				 hasInfo("whichSocialGathering") == false)
+        $question : Question(keyword == "whichSocialGathering")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask know people"
+    when
+        $prompt : Prompt((hasInfo("whichSocialGathering", "getTogether") == true ||
+        				 hasInfo("socialGathering", "no") == true),
+        				 hasInfo("knowPeople") == false)
+        $question : Question(keyword == "knowPeople")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask do people love wine"
+    when
+        $prompt : Prompt(hasInfo("knowPeople", "yes") == true &&
+        				 hasInfo("doPeopleLoveWine") == false)
+        $question : Question(keyword == "doPeopleLoveWine")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask people favorite"
+    when
+        $prompt : Prompt((hasInfo("whichSocialGathering", "getTogether") == true ||
+        				 hasInfo("socialGathering", "no") == true),
+        				 hasInfo("peopleFavorite") == false)
+        $question : Question(keyword == "peopleFavorite")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask who is cooking"
+    when
+        $prompt : Prompt(hasInfo("whichSocialGathering", "dinnerParty") == true,
+        				 hasInfo("whoIsCooking") == false)
+        $question : Question(keyword == "whoIsCooking")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask at home"
+    when
+        $prompt : Prompt(hasInfo("whoDrinks", "personalUse") == true,
+        				 hasInfo("atHome") == false)
+        $question : Question(keyword == "atHome")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask alone"
+    when
+        $prompt : Prompt((hasInfo("atHome", "yes") == true ||
+        				  hasInfo("special", "newYear") == true),
+        				 hasInfo("alone") == false)
+        $question : Question(keyword == "alone")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask recovering from work"
+    when
+        $prompt : Prompt(hasInfo("alone", "yes") == true,
+        				 hasInfo("recoveringFromWork") == false,
+        				 hasInfo("dailyDrinking", "no") == false)
+        $question : Question(keyword == "recoveringFromWork")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask getting drunk"
+    when
+        $prompt : Prompt(hasInfo("alone", "yes") == true,
+       					 hasInfo("atHome", "yes") == true,
+       					 hasInfo("dailyDrinking", "no") == false,
+        				 hasInfo("gettingDrunk") == false)
+        $question : Question(keyword == "gettingDrunk")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask feeling fancy"
+    when
+        $prompt : Prompt((hasInfo("alone", "yes") == true,
+       					 hasInfo("atHome", "yes") == true,
+       					 hasInfo("dailyDrinking", "no") == false,
+        				 hasInfo("feelingFancy") == false) ||
+        				 hasInfo("where", "restaurant") == true)
+        $question : Question(keyword == "feelingFancy")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask daily drinking"
+    when
+        $prompt : Prompt(hasInfo("alone", "yes") == true,
+       					 hasInfo("atHome", "yes") == true,
+        				 hasInfo("dailyDrinking") == false)
+        $question : Question(keyword == "dailyDrinking")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask kool aid man"
+    when
+        $prompt : Prompt(hasInfo("dailyDrinking", "yes") == true,
+        				 hasInfo("koolAidMan") == false)
+        $question : Question(keyword == "koolAidMan")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask eat dirt as a child"
+    when
+        $prompt : Prompt(hasInfo("dailyDrinking", "yes") == true,
+        				 hasInfo("eatDirtAsAChild") == false)
+        $question : Question(keyword == "eatDirtAsAChild")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask spray butter"
+    when
+        $prompt : Prompt(hasInfo("dailyDrinking", "yes") == true,
+        				 hasInfo("sprayButter") == false)
+        $question : Question(keyword == "sprayButter")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask new or old"
+    when
+        $prompt : Prompt((hasInfo("dailyDrinking", "no") == true ||
+        				  hasInfo("pronounce", "yes")),
+        				 hasInfo("newOrOld") == false)
+        $question : Question(keyword == "newOrOld")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask cults"
+    when
+        $prompt : Prompt(hasInfo("newOrOld", "new") == true,
+        				 hasInfo("cults") == false)
+        $question : Question(keyword == "cults")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask where"
+    when
+        $prompt : Prompt(hasInfo("atHome", "no") == true,
+        				 hasInfo("where") == false)
+        $question : Question(keyword == "where")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask wine is main course"
+    when
+        $prompt : Prompt(hasInfo("where", "dinner") == true,
+        				 hasInfo("wineIsainCourse") == false)
+        $question : Question(keyword == "wineIsainCourse")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask from microwave"
+    when
+        $prompt : Prompt(hasInfo("wineIsMainCourse", "no") == true,
+        				 hasInfo("fromMicrowave") == false)
+        $question : Question(keyword == "fromMicrowave")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask cook with wine"
+    when
+        $prompt : Prompt(hasInfo("fromMicrowave", "no") == true,
+        				 hasInfo("cookWithWine") == false)
+        $question : Question(keyword == "cookWithWine")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask cook with wine"
+    when
+        $prompt : Prompt(hasInfo("fromMicrowave", "no") == true,
+        				 hasInfo("cookWithWine") == false)
+        $question : Question(keyword == "cookWithWine")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask pronounce"
+    when
+        $prompt : Prompt(hasInfo("feelingFancy", "yes") == true,
+        				 hasInfo("pronounce") == false)
+        $question : Question(keyword == "pronounce")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask special"
+    when
+        $prompt : Prompt(hasInfo("where", "special") == true,
+        				 hasInfo("special") == false)
+        $question : Question(keyword == "special")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask old"
+    when
+        $prompt : Prompt(hasInfo("special", "birthday") == true,
+        				 hasInfo("old") == false)
+        $question : Question(keyword == "old")
+    then
+        $prompt.addInfo($question.ask());
+        update($prompt);
+end
+
+rule "Ask first anniversary"
+    when
+        $prompt : Prompt(hasInfo("special", "anniversary") == true,
+        				 hasInfo("firstAnniversary") == false)
+        $question : Question(keyword == "firstAnniversary")
     then
         $prompt.addInfo($question.ask());
         update($prompt);
