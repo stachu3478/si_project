@@ -22,20 +22,9 @@ end
 
 rule "Ask who drinks"
     when
-    	// TODO: Move to condition
         $prompt : Prompt(hasInfo("whoDrinks") == false)
-        // FIXME mismatched input $prompt, missmatched input collect
-        // forall($i : Info(getQuestion() != "whoDrinks"))
-        // from collect($prompt.getInfos()) FIXME: not exists - exists cannot be resolved to an object
         $question : Question(keyword == "whoDrinks")
     then
-        // TODO: Move to other function
-        // FIXME: insert is undefined in function scope
-        // FIXME: No enclosing instance of type BottleOfWineApp is accessible. Must qualify the allocation with an enclosing instance of type BottleOfWineApp (e.g. x.new A() where x is an instance of BottleOfWineApp).	
-		// tried removing casting still not work
-        Object[] options = $question.getAnswers();
-		int n = JOptionPane.showOptionDialog(frame, $question.toString(), "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-		Info info = new Info($question, (Answer)options[n]);
-		$prompt.addInfo(info);
+        $prompt.addInfo($question.ask());
         update($prompt);
 end

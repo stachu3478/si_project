@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -42,6 +45,7 @@ public class BottleOfWineApp {
     	knowledge.add(q);
     	
     	BottleOfWineUI ui = new BottleOfWineUI(knowledge, new PromptCallback(kc));
+    	Question.setUI(ui);
     	ui.createAndShow();
     }
     
@@ -80,10 +84,13 @@ public class BottleOfWineApp {
     public static class Info {
     	private Question question;
     	private Answer answer;
+    	private static JTextArea output;
     	
     	public Info(Question q, Answer a) {
     		question = q;
     		answer = a;
+    		output.append(q.toString() + "\n");
+    		output.append(a.toString() + "\n");
     	}
     	
     	public String getQuestion() {
@@ -93,12 +100,19 @@ public class BottleOfWineApp {
     	public String toString() {
     		return answer.getKeyword();
     	}
+    	
+    	public static void setOutput(JTextArea o) {
+    		output = o;
+    	}
+    	
+    	
     }
     
     public static class Question {
     	private String keyword;
     	private String content;
     	private Vector<Answer> answers;
+    	private static BottleOfWineUI ui;
     	
     	public Question(String k, String c) {
     		keyword = k;
@@ -124,6 +138,16 @@ public class BottleOfWineApp {
     	
     	public String getKeyword() {
     		return keyword;
+    	}
+    	
+    	public static void setUI(BottleOfWineUI u) {
+    		ui = u;
+    	}
+    	
+    	public Info ask() {
+    		Object[] options = this.getAnswers();
+    		int result = ui.ask(content, options);
+    		return new Info(this, (Answer)options[result]);
     	}
     }
     

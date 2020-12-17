@@ -10,12 +10,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
+import com.sample.BottleOfWineApp.Info;
 import com.sample.BottleOfWineApp.Question;
 
 import javax.swing.JScrollPane;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class BottleOfWineUI extends JPanel {
 	/**
@@ -37,6 +39,7 @@ public class BottleOfWineUI extends JPanel {
 		knowledge = k;
 		output = new JTextArea(1, 10);
 		output.setEditable(false);
+		Info.setOutput(output);
 		JScrollPane outputPane = new JScrollPane(output, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		add(outputPane, BorderLayout.CENTER);
 		setPreferredSize(new Dimension(640, 480));
@@ -62,6 +65,10 @@ public class BottleOfWineUI extends JPanel {
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+	}
+	
+	public int ask(String question, Object[] options) {
+		return JOptionPane.showOptionDialog(frame, question, "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 	}
 	
 	private class RunButtonHandler extends MouseAdapter {
