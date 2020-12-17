@@ -21,7 +21,6 @@ public class BottleOfWineApp {
             // load up the knowledge base
 	        KieServices ks = KieServices.Factory.get();
     	    KieContainer kContainer = ks.getKieClasspathContainer();
-        	KieSession kSession = kContainer.newKieSession("ksession-rules");
 
             // go !
         	BottleOfWineApp app = new BottleOfWineApp();
@@ -36,21 +35,11 @@ public class BottleOfWineApp {
     }
     
     public void init(KieContainer kc) {
-    	// Initial rules go here
-    	// ...
-    	Vector<Question> knowledge = new Vector<>();
-    	Question q = new Question("whoDrinks", "Who is drinking the wine?");
-    	q.addAnswer(new Answer("personalUse", "Myself"));
-    	q.addAnswer(new Answer("someoneElse", "Someone else"));
-    	knowledge.add(q);
-    	
-    	BottleOfWineUI ui = new BottleOfWineUI(knowledge, new PromptCallback(kc));
+    	BottleOfWineUI ui = new BottleOfWineUI(new Knowledge().getQuestions(), new PromptCallback(kc));
     	Question.setUI(ui);
     	ui.createAndShow();
     }
     
-    
-
     public static class Prompt {
         private String result;
         public List<Info> infos;
@@ -79,97 +68,5 @@ public class BottleOfWineApp {
         	}
         	return false;
         }
-    }
-    
-    public static class Info {
-    	private Question question;
-    	private Answer answer;
-    	private static JTextArea output;
-    	
-    	public Info(Question q, Answer a) {
-    		question = q;
-    		answer = a;
-    		output.append(q.toString() + "\n");
-    		output.append(a.toString() + "\n");
-    	}
-    	
-    	public String getQuestion() {
-    		return question.getKeyword();
-    	}
-    
-    	public String toString() {
-    		return answer.getKeyword();
-    	}
-    	
-    	public static void setOutput(JTextArea o) {
-    		output = o;
-    	}
-    	
-    	
-    }
-    
-    public static class Question {
-    	private String keyword;
-    	private String content;
-    	private Vector<Answer> answers;
-    	private static BottleOfWineUI ui;
-    	
-    	public Question(String k, String c) {
-    		keyword = k;
-    		content = c;
-    		answers = new Vector<>();
-    	}
-    	
-    	public void addAnswer(Answer a) {
-    		answers.add(a);
-    	}
-    	
-    	public Object[] getAnswers() {
-    		return answers.toArray();
-    	}
-    	
-    	public String toString() {
-    		return content;
-    	}
-    	
-    	public boolean equals(Question q) {
-    		return keyword == q.keyword;
-    	}
-    	
-    	public String getKeyword() {
-    		return keyword;
-    	}
-    	
-    	public static void setUI(BottleOfWineUI u) {
-    		ui = u;
-    	}
-    	
-    	public Info ask() {
-    		Object[] options = this.getAnswers();
-    		int result = ui.ask(content, options);
-    		return new Info(this, (Answer)options[result]);
-    	}
-    }
-    
-    public class Answer {
-    	private String keyword;
-    	private String content;
-    	
-    	public Answer(String k, String c) {
-    		keyword = k;
-    		content = c;
-    	}
-    	
-    	public String toString() {
-    		return content;
-    	}
-    	
-    	public boolean equals(Answer a) {
-    		return keyword == a.keyword;
-    	}
-    	
-    	public String getKeyword() {
-    		return keyword;
-    	}
     }
 }

@@ -5,14 +5,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 import org.kie.api.runtime.KieRuntime;
-import com.sample.BottleOfWineApp.Info;
 import com.sample.BottleOfWineApp.Prompt;
-import com.sample.BottleOfWineApp.Question;
-import com.sample.BottleOfWineApp.Answer;
-import com.sample.BottleOfWineApp;
-
-global JFrame frame;
-global JTextArea textarea;
+import com.sample.Question;
 
 rule "Is working"
 	when

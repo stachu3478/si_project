@@ -24,10 +24,6 @@ public class PromptCallback {
 		
 		KieSession kSession = kContainer.newKieSession("ksession-rules");
 		
-		// TODO clean all globals
-		kSession.setGlobal("frame", frame);
-		kSession.setGlobal("textarea", output);
-		
 		for (Question q : knowledge) {
 			kSession.insert(q);
 		}
