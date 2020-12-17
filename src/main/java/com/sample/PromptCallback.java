@@ -15,17 +15,18 @@ import com.sample.BottleOfWineApp.Prompt;
 public class PromptCallback {
 	KieContainer kContainer;
 	JTextArea output;
+	KieSession kSession;
+	KieRuntimeLogger kLogger;
 	
 	public PromptCallback(KieContainer kc) {
 		kContainer = kc;
+		kSession = kContainer.newKieSession("ksession-rules");
+		KieServices ks = KieServices.Factory.get();
+		kLogger = ks.getLoggers().newFileLogger(kSession, "wine");
 	}
 	
 	public void run(JFrame frame, List<Question> knowledge) {
 		Prompt prompt = new Prompt();
-		
-		KieSession kSession = kContainer.newKieSession("ksession-rules");
-		KieServices ks = KieServices.Factory.get();
-		KieRuntimeLogger kLogger = ks.getLoggers().newFileLogger(kSession, "wine");
 		
 		for (Question q : knowledge) {
 			kSession.insert(q);
@@ -33,6 +34,9 @@ public class PromptCallback {
 		
 		kSession.insert(prompt);
 		kSession.fireAllRules();
+	}
+	
+	public void tearDown() {
 		kLogger.close();
 	}
 	
