@@ -10,130 +10,126 @@ import com.sample.Question;
 
 rule "Ask who drinks"
     when
-        $prompt : Prompt(hasInfo("whoDrinks") == false)
+        not Info(getQuestion() == "whoDrinks")
         $question : Question(keyword == "whoDrinks")
     then
-        $prompt.addInfo($question.ask());
-        update($prompt);
+        insert($question.ask());
 end
 
 rule "Ask social gathering"
     when
-        $prompt : Prompt(hasInfo("whoDrinks", "someoneElse") == true &&
-        				 hasInfo("socialGathering") == false)
+    	not Info(getQuestion() == "socialGathering")
+        Info(getQuestion() == "whoDrinks", toString() == "someoneElse")
         $question : Question(keyword == "socialGathering")
     then
-        $prompt.addInfo($question.ask());
-        update($prompt);
+        insert($question.ask());
 end
 
 rule "Ask which social gathering"
     when
-        $prompt : Prompt(hasInfo("socialGathering", "yes") == true,
-        				 hasInfo("whichSocialGathering") == false)
+    	not Info(getQuestion() == "whichSocialGathering")
+        Info(getQuestion() == "socialGathering", toString() == "yes")
         $question : Question(keyword == "whichSocialGathering")
     then
-        $prompt.addInfo($question.ask());
-        update($prompt);
+        insert($question.ask());
 end
 
 rule "Ask know people"
     when
-        $prompt : Prompt((hasInfo("whichSocialGathering", "getTogether") == true ||
-        				 hasInfo("socialGathering", "no") == true),
-        				 hasInfo("knowPeople") == false)
+    	not Info(getQuestion() == "knowPeople")
+    	Info((getQuestion() == "whichSocialGathering" && toString() == "getTogether") ||
+    		 (getQuestion() == "socialGathering" && toString() == "no"))
         $question : Question(keyword == "knowPeople")
     then
-        $prompt.addInfo($question.ask());
-        update($prompt);
+        insert($question.ask());
 end
 
 rule "Ask do people love wine"
     when
-        $prompt : Prompt(hasInfo("knowPeople", "yes") == true &&
-        				 hasInfo("doPeopleLoveWine") == false)
+    	not Info(getQuestion() == "doPeopleLoveWine")
+    	Info(getQuestion() == "knowPeople" && toString() == "yes")
         $question : Question(keyword == "doPeopleLoveWine")
     then
-        $prompt.addInfo($question.ask());
-        update($prompt);
+        insert($question.ask());
 end
 
 rule "Ask people favorite"
     when
-        $prompt : Prompt((hasInfo("whichSocialGathering", "getTogether") == true ||
-        				 hasInfo("socialGathering", "no") == true),
-        				 hasInfo("peopleFavorite") == false)
+    	not Info(getQuestion() == "peopleFavorite")
+    	Info((getQuestion() == "whichSocialGathering" && toString() == "getTogether") ||
+    		 (getQuestion() == "socialGathering" && toString() == "no"))
         $question : Question(keyword == "peopleFavorite")
     then
-        $prompt.addInfo($question.ask());
-        update($prompt);
+        insert($question.ask());
 end
 
 rule "Ask who is cooking"
     when
-        $prompt : Prompt(hasInfo("whichSocialGathering", "dinnerParty") == true,
-        				 hasInfo("whoIsCooking") == false)
+    	not Info(getQuestion() == "whoIsCooking")
+    	Info(getQuestion() == "whichSocialGathering" && toString() == "dinnerParty")
         $question : Question(keyword == "whoIsCooking")
     then
-        $prompt.addInfo($question.ask());
-        update($prompt);
+        insert($question.ask());
 end
 
 rule "Ask at home"
     when
-        $prompt : Prompt(hasInfo("whoDrinks", "personalUse") == true,
-        				 hasInfo("atHome") == false)
+    	not Info(getQuestion() == "atHome")
+    	Info(getQuestion() == "whoDrinks" && toString() == "personalUse")
         $question : Question(keyword == "atHome")
     then
-        $prompt.addInfo($question.ask());
-        update($prompt);
+        insert($question.ask());
 end
 
 rule "Ask alone"
     when
-        $prompt : Prompt((hasInfo("atHome", "yes") == true ||
-        				  hasInfo("special", "newYear") == true),
-        				 hasInfo("alone") == false)
+    	not Info(getQuestion() == "alone")
+    	Info((getQuestion() == "atHome" && toString() == "yes") ||
+    		 (getQuestion() == "special" && toString() == "newYear"))
         $question : Question(keyword == "alone")
     then
-        $prompt.addInfo($question.ask());
-        update($prompt);
+        insert($question.ask());
 end
 
 rule "Ask recovering from work"
     when
-        $prompt : Prompt(hasInfo("alone", "yes") == true,
-        				 hasInfo("recoveringFromWork") == false,
-        				 hasInfo("dailyDrinking", "no") == false)
+    	not Info(getQuestion() == "recoveringFromWork")
+    	Info(getQuestion() == "alone" && toString() == "yes")
+    	not Info(getQuestion() == "dailyDrinking" && toString() == "no")
         $question : Question(keyword == "recoveringFromWork")
     then
-        $prompt.addInfo($question.ask());
-        update($prompt);
+        insert($question.ask());
 end
 
 rule "Ask getting drunk"
     when
-        $prompt : Prompt(hasInfo("alone", "yes") == true,
-       					 hasInfo("atHome", "yes") == true,
-       					 hasInfo("dailyDrinking", "no") == false,
-        				 hasInfo("gettingDrunk") == false)
+    	not Info(getQuestion() == "gettingDrunk")
+    	Info(getQuestion() == "alone" && toString() == "yes")
+    	Info(getQuestion() == "atHome" && toString() == "yes")
+    	not Info(getQuestion() == "dailyDrinking" && toString() == "no")
         $question : Question(keyword == "gettingDrunk")
     then
-        $prompt.addInfo($question.ask());
-        update($prompt);
+        insert($question.ask());
 end
 
-rule "Ask feeling fancy"
+rule "Ask feeling fancy 1"
     when
-        $prompt : Prompt((hasInfo("alone", "yes") == true && // FIXME: missmatched input ","
-       					  hasInfo("atHome", "yes") == true &&
-       					  hasInfo("dailyDrinking", "no") == false &&
-        				  hasInfo("feelingFancy") == false) ||
-        				 hasInfo("where", "restaurant") == true)
+    	not Info(getQuestion() == "feelingFancy")
+    	Info(getQuestion() == "where" && toString() == "restaurant")
         $question : Question(keyword == "feelingFancy")
     then
-        $prompt.addInfo($question.ask());
-        update($prompt);
+        insert($question.ask());
+end
+
+rule "Ask feeling fancy 2"
+    when
+    	not Info(getQuestion() == "feelingFancy")
+    	Info(getQuestion() == "alone" && toString() == "yes")
+    	not Info(getQuestion() == "dailyDrinking" && toString() == "no")
+    	Info(getQuestion() == "atHome" && toString() == "yes")
+        $question : Question(keyword == "feelingFancy")
+    then
+        insert($question.ask());
 end
 
 rule "Ask daily drinking"
@@ -287,10 +283,9 @@ rule "reply Get out 2 "
         (hasInfo("knowPeople", "no")&&hasInfo("socialGathering","no") == true)||
         (hasInfo("doPeopleLoveWine", "no")&&hasInfo("socialGathering","no")==true)       				
         				 )
-       
+        $response : Response(keyword == "GetOut2")
     then
-        $ui.reply_final("GetOut2");
-        update($prompt);
+    	$response.reply();
 end
 
 
@@ -298,28 +293,25 @@ end
 rule " reply 2 buck"
     when
         $prompt : Prompt(hasInfo("artOpening") == true )
-        //$question : Question(keyword == "knowPeople")   //to 2 buckshot
+        $response : Response(keyword == "NoTasteArt")
     then
-        $ui.reply_final("NoTasteArt");
-        update($prompt);
+        $response.reply();
 end
 
 rule " reply no glass"
     when
         $prompt : Prompt(hasInfo("beachBbq") == true )
-        //$question : Question(keyword == "knowPeople")   //to  noglass
+        $response : Response(keyword == "NoGlass")
     then
-        $ui.reply_final("NoGlass");
-        update($prompt);
+        $response.reply();
 end
 
 rule " reply red blend "
     when
         $prompt : Prompt(hasInfo("whoIsCooking", "them") == true )
-        //$question : Question(keyword == "knowPeople")   //to  red blend
+        $response : Response(keyword == "BiggestRed")
     then
-        $ui.reply_final("BiggestRed");
-        update($prompt);
+        $response.reply();
 end
 
 
@@ -327,10 +319,9 @@ end
 rule " reply vodka"
     when
         $prompt : Prompt(hasInfo("bachelorParty") == true )
-        //$question : Question(keyword == "knowPeople")   //to  vodka
+        $response : Response(keyword == "WhiskyVodka")
     then
-        $ui.reply_final("WhiskyVodka");
-        update($prompt);
+        $response.reply();
 end
 
 rule " get out 2  "
@@ -339,29 +330,26 @@ rule " get out 2  "
         				 (hasInfo("doPeopleLoveWine","no")==true && hasInfo("knowPeople","yes")==true && hasInfo("socialGathering","yes")==true   )
         				|| (hasInfo("whoIsCooking","me") == true) 
         				 )
-        //$question : Question(keyword == "knowPeople")   //to  vwypad
+        $response : Response(keyword == "GetOut2")
     then
-        $ui.reply_final("GetOut2");
-        update($prompt);
+        $response.reply();
 end
 
 rule " boring  "
     when
         $prompt : Prompt(hasInfo("getTogether"), hasInfo("knowPeople","no")==true) 
         					
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "NoOpen")
     then
-        $ui.reply_final("NoOpen");
-        update($prompt);
+        $response.reply();
 end
 
 rule " pinot noir  "
     when
         $prompt : Prompt(hasInfo("recoveringFromWork","yes")==true)
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "PinotNoir")
     then
-        $ui.reply_final("PinotNoir");
-        update($prompt);
+        $response.reply();
 end
 
 rule " cali pinot noir  "
@@ -372,32 +360,27 @@ rule " cali pinot noir  "
         (hasInfo("birthday")&&hasInfo("old","yes")==true)
         )
         				 
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "CaliPinotNoir")
     then
-        $ui.reply_final("CaliPinotNoir");
-        update($prompt);
+        $response.reply();
 end
 
 rule " merlot  "
     when
         $prompt : Prompt( hasInfo("firstAnniversary","no")==true)
         
-        				 
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "Merlot")
     then
-        $ui.reply_final("Merlot");
-        update($prompt);
+        $response.reply();
 end
 
 rule " zinfandel  or shiraz"
     when
         $prompt : Prompt( hasInfo("gettingDrunk","yes")==true)
         
-        				 
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "HighOctane")
     then
-        $ui.reply_final("HighOctane");
-        update($prompt);
+        $response.reply();
 end
 
 rule " sangiovese grenache "
@@ -406,56 +389,45 @@ rule " sangiovese grenache "
         ( hasInfo("wineIsMainCourse","yes"))==true ||
         ( hasInfo("alone","yes")&& hasInfo("newYear","yes"))==true )
         
-        
-        				 
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "Exotic")
     then
-        $ui.reply_final("Exotic");
-        update($prompt);
+        $response.reply();
 end
 
 rule " argentinian malblec  "
     when
         $prompt : Prompt( hasInfo("koolAidMan","yes")==true)
         
-        				 
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+   		$response : Response(keyword == "ArgMalblec")
     then
-        $ui.reply_final("ArgMalblec");
-        update($prompt);
+        $response.reply();
 end
 
 rule " chinono burgueil   "
     when
         $prompt : Prompt( hasInfo("eatDirtAsAChild","yes")==true)
         
-        				 
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "Chinon_Bourgeil")
     then
-        $ui.reply_final("Chinon_Bourgeil");
-        update($prompt);
+        $response.reply();
 end
 
 rule " buttery chardonay  "
     when
         $prompt : Prompt( hasInfo("sprayButter","yes")==true)
         
-        				 
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "ButteryChardonay")
     then
-        $ui.reply_final("ButteryChardonay");
-        update($prompt);
+        $response.reply();
 end
 
 rule " big box wine  "
     when
-        $prompt : Prompt( (hasInfo("fromMicrowave","yes")==true) ||(hasInfo("orderFromWindow","yes")==true)
+        $prompt : Prompt( (hasInfo("fromMicrowave","yes")==true) ||(hasInfo("orderFromWindow","yes")==true))
         
-        				 )
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "BigBoxWine")
     then
-        $ui.reply_final("BigBoxWine");
-        update($prompt);
+        $response.reply();
 end
 
 rule " get out 1   "
@@ -463,100 +435,82 @@ rule " get out 1   "
         $prompt : Prompt( (hasInfo("sprayButter","no")==true)||
         (hasInfo("newOrOld","dunno")==true))
         
-        				 
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "GetOut1")
     then
-        $ui.reply_final("GetOut1");
-        update($prompt);
+        $response.reply();
 end
 
 rule " bordox or burgundy  "
     when
         $prompt : Prompt(hasInfo("newOrOld","old")==true)
         
-        				 
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "Bordoux_Burgundy")
     then
-        $ui.reply_final("Bordoux_Burgundy");
-        update($prompt);
+        $response.reply();
 end
 
 rule " cali cabernet  "
     when
         $prompt : Prompt((hasInfo("orderFromWindow","no")==true) || (hasInfo("cults","no")==true))
         
-        				 
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "CaliCabernet")
     then
-        $ui.reply_final("CaliCabernet");
-        update($prompt);
+        $response.reply();
 end
 
 rule " sauvignion blanc  "
     when
         $prompt : Prompt(hasInfo("cookWithWine","yes")==true)
         
-        				 
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "SauvignioneBlanc")
     then
-        $ui.reply_final("SauvignioneBlanc");
-        update($prompt);
+        $response.reply();
 end
 
 rule " sine qua non , cayuse  "
     when
         $prompt : Prompt(hasInfo("cults","yes")==true)
         
-        				 
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "SQN_Cayuse")
     then
-        $ui.reply_final("SQN_Cayuse");
-        update($prompt);
+        $response.reply();
 end
 
 rule " cotes du rhone  "
     when
         $prompt : Prompt(hasInfo("pronounce","no")==true)
         
-        				 
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "CotesRhone")
     then
-        $ui.reply_final("CotesRhone");
-        update($prompt);
+        $response.reply();
 end
 
 rule " small box wine "
     when
         $prompt : Prompt( (hasInfo("camping")==true) || (hasInfo("drinkingInPublic")==true))
         
-        				 
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "SmallBoxWine")
     then
-        $ui.reply_final("SmallBoxWine");
-        update($prompt);
+        $response.reply();
 end
 
 rule " spanish cava  "
     when
         $prompt : Prompt( (hasInfo("newYear")==true) || (hasInfo("alone")==true))
         
-        				 
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "SpanishCava")
     then
-        $ui.reply_final("SpanishCava");
-        update($prompt);
+        $response.reply();
 end
 
 rule " riesling or chenin  "
     when
-        $prompt : Prompt( (hasInfo("birthday")&&hasInfo("old","no")==true) || (hasInfo("blindDate")==true)||
+        $prompt : Prompt( (hasInfo("birthday")==true&&hasInfo("old","no")==true) || (hasInfo("blindDate")==true)||
         (hasInfo("eloping")==true))
         
-        				 
-        //$question : Question(keyword == "knowPeople")   //modyfikuj
+        $response : Response(keyword == "RiesChenin")
     then
-        $ui.reply_final("RiesChenin");
-        update($prompt);
+        $response.reply();
 end
 
 

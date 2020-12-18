@@ -18,6 +18,10 @@ public class Knowledge {
 		return questions;
 	}
 
+	public Vector<Response> getResponse_s() {
+		return response_s;
+	}
+
 	private void fetch() {
 		// Initial rules go here
 		// ...
@@ -94,6 +98,7 @@ public class Knowledge {
 		addAnswer("blindDate", "Blind date");
 		addAnswer("birthday", "Birthday");
 		addAnswer("newYear", "New Year");
+		addYesNo();
 		createQuestion("old", "Do you feel old?");
 		addYesNo();
 		createQuestion("firstAnniversary", "Is it the first anniversary?");
@@ -114,7 +119,7 @@ public class Knowledge {
 		addfinalresponse("SmallBoxWine", "No cork screw required- Single serve box wine");
 		addfinalresponse("BigBoxWine", "Go budget go bulk - 3 liter Box wine");
 		addfinalresponse("CotesRhone", "Ask for - Cotes du Rhone");
-		addfinalresponse("SuvignioneBlanc", "white and less than 9 dollars such as: Suvignione Blanc");
+		addfinalresponse("SauvignioneBlanc", "white and less than 9 dollars such as: Suvignione Blanc");
 		addfinalresponse("SQN_Cayuse", "Cult Classic- Sine Qua non or Cayuse");
 		addfinalresponse("Chinon_Bourgeil", "Something earthy: Chinon or  Bourgueil");
 		addfinalresponse("ButteryChardonay", "Please bring me Buttery Chardonnay");

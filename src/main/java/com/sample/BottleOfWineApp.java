@@ -30,7 +30,8 @@ public class BottleOfWineApp {
 	}
 
 	public void init(KieContainer kc) {
-		BottleOfWineUI ui = new BottleOfWineUI(new Knowledge().getQuestions(), new PromptCallback(kc));
+		BottleOfWineUI ui = new BottleOfWineUI(new Knowledge().getQuestions(), new Knowledge().getResponse_s(),
+				new PromptCallback(kc));// zmiana
 		Question.setUI(ui);
 		ui.createAndShow();
 	}
