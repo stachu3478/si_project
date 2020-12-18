@@ -277,3 +277,294 @@ rule "Ask first anniversary"
         $prompt.addInfo($question.ask());
         update($prompt);
 end
+
+
+//////////////replys
+
+rule "reply Get out 2 "
+    when
+        $prompt : Prompt((hasInfo("peopleFavorite", "no")&&hasInfo("socialGathering","no") == true)||
+        (hasInfo("knowPeople", "no")&&hasInfo("socialGathering","no") == true)||
+        (hasInfo("doPeopleLoveWine", "no")&&hasInfo("socialGathering","no")==true)       				
+        				 )
+       
+    then
+        $ui.reply_final("GetOut2");
+        update($prompt);
+end
+
+
+
+rule " reply 2 buck"
+    when
+        $prompt : Prompt(hasInfo("artOpening") == true )
+        //$question : Question(keyword == "knowPeople")   //to 2 buckshot
+    then
+        $ui.reply_final("NoTasteArt");
+        update($prompt);
+end
+
+rule " reply no glass"
+    when
+        $prompt : Prompt(hasInfo("beachBbq") == true )
+        //$question : Question(keyword == "knowPeople")   //to  noglass
+    then
+        $ui.reply_final("NoGlass");
+        update($prompt);
+end
+
+rule " reply red blend "
+    when
+        $prompt : Prompt(hasInfo("whoIsCooking", "them") == true )
+        //$question : Question(keyword == "knowPeople")   //to  red blend
+    then
+        $ui.reply_final("BiggestRed");
+        update($prompt);
+end
+
+
+
+rule " reply vodka"
+    when
+        $prompt : Prompt(hasInfo("bachelorParty") == true )
+        //$question : Question(keyword == "knowPeople")   //to  vodka
+    then
+        $ui.reply_final("WhiskyVodka");
+        update($prompt);
+end
+
+rule " get out 2  "
+    when
+        $prompt : Prompt( 
+        				 (hasInfo("doPeopleLoveWine","no")==true && hasInfo("knowPeople","yes")==true && hasInfo("socialGathering","yes")==true   )
+        				|| (hasInfo("whoIsCooking","me") == true) 
+        				 )
+        //$question : Question(keyword == "knowPeople")   //to  vwypad
+    then
+        $ui.reply_final("GetOut2");
+        update($prompt);
+end
+
+rule " boring  "
+    when
+        $prompt : Prompt(hasInfo("getTogether"), hasInfo("knowPeople","no")==true) 
+        					
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("NoOpen");
+        update($prompt);
+end
+
+rule " pinot noir  "
+    when
+        $prompt : Prompt(hasInfo("recoveringFromWork","yes")==true)
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("PinotNoir");
+        update($prompt);
+end
+
+rule " cali pinot noir  "
+    when
+        $prompt : Prompt(
+        (hasInfo("peopleFavorite","yes")==true) ||
+        (hasInfo("firstAnniversary","yes")==true) ||
+        (hasInfo("birthday")&&hasInfo("old","yes")==true)
+        )
+        				 
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("CaliPinotNoir");
+        update($prompt);
+end
+
+rule " merlot  "
+    when
+        $prompt : Prompt( hasInfo("firstAnniversary","no")==true)
+        
+        				 
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("Merlot");
+        update($prompt);
+end
+
+rule " zinfandel  or shiraz"
+    when
+        $prompt : Prompt( hasInfo("gettingDrunk","yes")==true)
+        
+        				 
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("HighOctane");
+        update($prompt);
+end
+
+rule " sangiovese grenache "
+    when
+        $prompt : Prompt( hasInfo("feelingFancy","yes")==true || 
+        ( hasInfo("wineIsMainCourse","yes"))==true ||
+        ( hasInfo("alone","yes")&& hasInfo("newYear","yes"))==true )
+        
+        
+        				 
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("Exotic");
+        update($prompt);
+end
+
+rule " argentinian malblec  "
+    when
+        $prompt : Prompt( hasInfo("koolAidMan","yes")==true)
+        
+        				 
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("ArgMalblec");
+        update($prompt);
+end
+
+rule " chinono burgueil   "
+    when
+        $prompt : Prompt( hasInfo("eatDirtAsAChild","yes")==true)
+        
+        				 
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("Chinon_Bourgeil");
+        update($prompt);
+end
+
+rule " buttery chardonay  "
+    when
+        $prompt : Prompt( hasInfo("sprayButter","yes")==true)
+        
+        				 
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("ButteryChardonay");
+        update($prompt);
+end
+
+rule " big box wine  "
+    when
+        $prompt : Prompt( (hasInfo("fromMicrowave","yes")==true) ||(hasInfo("orderFromWindow","yes")==true)
+        
+        				 )
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("BigBoxWine");
+        update($prompt);
+end
+
+rule " get out 1   "
+    when
+        $prompt : Prompt( (hasInfo("sprayButter","no")==true)||
+        (hasInfo("newOrOld","dunno")==true))
+        
+        				 
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("GetOut1");
+        update($prompt);
+end
+
+rule " bordox or burgundy  "
+    when
+        $prompt : Prompt(hasInfo("newOrOld","old")==true)
+        
+        				 
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("Bordoux_Burgundy");
+        update($prompt);
+end
+
+rule " cali cabernet  "
+    when
+        $prompt : Prompt((hasInfo("orderFromWindow","no")==true) || (hasInfo("cults","no")==true))
+        
+        				 
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("CaliCabernet");
+        update($prompt);
+end
+
+rule " sauvignion blanc  "
+    when
+        $prompt : Prompt(hasInfo("cookWithWine","yes")==true)
+        
+        				 
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("SauvignioneBlanc");
+        update($prompt);
+end
+
+rule " sine qua non , cayuse  "
+    when
+        $prompt : Prompt(hasInfo("cults","yes")==true)
+        
+        				 
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("SQN_Cayuse");
+        update($prompt);
+end
+
+rule " cotes du rhone  "
+    when
+        $prompt : Prompt(hasInfo("pronounce","no")==true)
+        
+        				 
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("CotesRhone");
+        update($prompt);
+end
+
+rule " small box wine "
+    when
+        $prompt : Prompt( (hasInfo("camping")==true) || (hasInfo("drinkingInPublic")==true))
+        
+        				 
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("SmallBoxWine");
+        update($prompt);
+end
+
+rule " spanish cava  "
+    when
+        $prompt : Prompt( (hasInfo("newYear")==true) || (hasInfo("alone")==true))
+        
+        				 
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("SpanishCava");
+        update($prompt);
+end
+
+rule " riesling or chenin  "
+    when
+        $prompt : Prompt( (hasInfo("birthday")&&hasInfo("old","no")==true) || (hasInfo("blindDate")==true)||
+        (hasInfo("eloping")==true))
+        
+        				 
+        //$question : Question(keyword == "knowPeople")   //modyfikuj
+    then
+        $ui.reply_final("RiesChenin");
+        update($prompt);
+end
+
+
+
+
+
+
+
+
+
+
