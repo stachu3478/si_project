@@ -6,7 +6,6 @@ public class Knowledge {
 	private Vector<Question> questions;
 	private Vector<Response> response_s;
 	private Question lastQuestion;
-	private Response lastResponse;
 
 	public Knowledge() {
 		this.questions = new Vector<>();
@@ -144,7 +143,6 @@ public class Knowledge {
 	}
 
 	private void addfinalresponse(String key, String content) {
-		lastResponse = new Response(key, content);
-		response_s.add(lastResponse);
+		response_s.add(new Response(key, content));
 	}
 }

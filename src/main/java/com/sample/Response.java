@@ -11,6 +11,6 @@ public class Response {
 	}
 
 	public void reply() {
-		ui.reply_final(keyword);
+		ui.reply_final(this);
 	}
 }

@@ -1,8 +1,5 @@
 package com.sample;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 
@@ -34,43 +31,5 @@ public class BottleOfWineApp {
 				new PromptCallback(kc));// zmiana
 		Question.setUI(ui);
 		ui.createAndShow();
-	}
-
-	public static class Prompt {
-		// private String result;
-		public List<Info> infos;
-		public boolean isNew = true;
-
-		public Prompt() {
-			infos = new ArrayList<Info>();
-		}
-
-		public void addInfo(Info info) {
-			infos.add(info);
-		}
-
-		public boolean hasInfo(String str, String ans) {
-			for (Info info : infos) {
-				if (info.getQuestion() == str)
-					return ans == null || ans == info.toString();
-			}
-			return false;
-		}
-
-		public boolean hasInfo(String str) {
-			for (Info info : infos) {
-				if (info.getQuestion() == str)
-					return true;
-			}
-			return false;
-		}
-
-		public boolean hasAnswer(String str) {
-			for (Info info : infos) {
-				if (info.toString() == str)
-					return true;
-			}
-			return false;
-		}
 	}
 }

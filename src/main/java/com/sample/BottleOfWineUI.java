@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
@@ -28,12 +27,11 @@ public class BottleOfWineUI extends JPanel {
 	private PromptCallback callback;
 
 	private JFrame frame;
-	private Vector<Response> response_s;/////////
 
-	public BottleOfWineUI(List<Question> k, Vector<Response> response, PromptCallback cb) {
+	public BottleOfWineUI(List<Question> k, List<Response> responses, PromptCallback cb) {
 		super(new BorderLayout());
 		callback = cb;
-		callback.loadKnowledge(k);
+		callback.loadKnowledge(k, responses);
 		output = new JTextArea(1, 10);
 		output.setEditable(false);
 		Info.setOutput(output);
@@ -49,7 +47,7 @@ public class BottleOfWineUI extends JPanel {
 		button.addMouseListener(new RunButtonHandler(frame));
 		button.setActionCommand("run");
 		add(button, BorderLayout.NORTH);
-		this.response_s = response;
+		Response.ui = this;
 	}
 
 	public void createAndShow() {
@@ -69,28 +67,23 @@ public class BottleOfWineUI extends JPanel {
 				JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 	}
 
-	public void reply_final(String code) {
-		for (Response x : response_s) {
-			if (x.keyword == code) {
-				JFrame f;
-				JLabel l;
-				f = new JFrame("twoj wybor");
-				l = new JLabel();
+	public void reply_final(Response x) {
+		JFrame f;
+		JLabel l;
+		f = new JFrame("twoj wybor");
+		l = new JLabel();
 
-				l.setText(x.content);
-				JPanel p = new JPanel();
+		l.setText(x.content);
+		JPanel p = new JPanel();
 
-				p.add(l);
+		p.add(l);
 
-				f.add(p);
+		f.add(p);
 
-				f.setSize(400, 100);
+		f.setSize(400, 100);
+		output.append("You chose " + x.content + "\n");
 
-				f.show();
-				return;
-			}
-		}
-
+		f.show();
 	}
 
 	private class RunButtonHandler extends MouseAdapter {

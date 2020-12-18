@@ -8,8 +8,6 @@ import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 
-import com.sample.BottleOfWineApp.Prompt;
-
 public class PromptCallback {
 	private KieContainer kContainer;
 	private KieSession kSession;
@@ -21,16 +19,17 @@ public class PromptCallback {
 		ks.getLoggers().newFileLogger(kSession, "wine");
 	}
 
-	public void loadKnowledge(List<Question> knowledge) {
+	public void loadKnowledge(List<Question> knowledge, List<Response> results) {
 		for (Question q : knowledge) {
 			kSession.insert(q);
+		}
+		;
+		for (Response r : results) {
+			kSession.insert(r);
 		}
 	}
 
 	public void run(JFrame frame) {
-		Prompt prompt = new Prompt();
-
-		kSession.insert(prompt);
 		kSession.fireAllRules();
 	}
 }
